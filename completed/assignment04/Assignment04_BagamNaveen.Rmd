@@ -1,0 +1,103 @@
+---
+title: "ASSIGNMENT 4"
+author: "Naveen Bagam"
+date: '2022-01-23'
+output:
+  pdf_document: default
+  word_document: default
+  html_document: default
+bibliography: bibliography.bib
+---
+
+# Markdown Basics
+
+## Favorite Foods
+
+Chicken Fried Rice
+
+Chicken Nuggets
+
+Garlic Bread
+
+## Images
+![Getting Started](C:/Users/nbaga/dsc520/completed/assignment04/plots/10-all-cases-log.png)
+
+## Add a Quote
+
+"Focus on the good in each and every day, no matter what happens there is good to be found"
+
+## Add an Equation
+
+$$
+f(x) = \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3 + \beta_4 (x-\xi)^3_+
+$$
+
+$$
+(x-\xi)^3_+ =
+\begin{cases}
+ (x-\xi)^3\, ,& x>\xi \\
+ 0  ,& x\leq\xi
+ \end{cases}       
+$$
+
+$$
+\begin{aligned}
+  (x \leq \xi) \Rightarrow f(x) &= \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3 \\
+  (x > \xi) \Rightarrow f(x) &= \beta_0 + \beta_1 x + \beta_2 x^2 + \beta_3 x^3 + \beta_4(x^3 -3x^2\xi + 3x\xi^2 - \xi^3) \\
+  &=(\beta_0 + \beta_4\xi^3) + (\beta_1 + 3\beta_4\xi^2)x + (\beta_2 - 3\beta_4)
+\end{aligned}
+$$
+## Add a Footnote
+
+This is a footnote
+
+## Add Citations
+
+* R for Everyone
+* Discovering Statistics Using R
+
+# Inline Code
+
+```{r include=FALSE}
+library(ggplot2)
+theme_set(theme_minimal())
+
+heights_df <- read.csv("C:/Users/nbaga/dsc520/data/r4ds/heights.csv")
+
+covid_df <- read.csv("C:/Users/nbaga/dsc520/data/nytimes/covid-19-data/us-states.csv")
+
+california_df <- covid_df[ which( covid_df$state == "California"), ]
+ny_df <- covid_df[ which( covid_df$state == "New York"), ]
+florida_df <- covid_df[ which( covid_df$state == "Florida"), ]
+
+## NY Times COVID-19 Data
+```{r echo=FALSE}
+ggplot(data=florida_df, aes(x=state, group=1)) +
+  geom_line(aes(y = cases, colour = "Florida")) +
+  geom_line(data=ny_df, aes(y = cases,colour="New York")) +
+  geom_line(data=california_df, aes(y = cases, colour="California")) + scale_colour_manual("",breaks = c("Florida","New York","California"),values = c("blue","red","green")) + xlab(" ") + ylab("Cases") + scale_y_log10()
+
+
+## R4DS Height vs Earnings
+```{r echo=FALSE}
+ggplot(heights_df, aes(x=height, y= earn)) + geom_point()+geom_boxplot()
+ 
+# Tables
+```{r echo=FALSE}
+name <- c("Aragon", "Bilbo", "Frodo", "Galadriel", "Sam", "Gandalf", "Legolas", "Sauron", "Gollum")
+race <- c("Men", "Hobbit", "Hobbit", "Elf", "Hobbit", "Maia", "Elf", "Maia", "Hobbit")
+in_fellowship <- c(TRUE, FALSE, TRUE, FALSE, TRUE, TRUE, TRUE, FALSE, FALSE)
+ring_bearer <- c(FALSE, TRUE, TRUE, FALSE, TRUE, TRUE, FALSE, TRUE, TRUE)
+age <- c(88, 129, 51, 7000, 36, 2019, 2931, 7052, 589)
+
+characters_df <- data.frame(name, race, in_fellowship, ring_bearer, age)
+
+## Knitr Table with Kable
+knitr::kable(characters_df, caption = "One Ring to Rule Them All")
+
+## Pandoc Table
+knitr::kable(characters_df, caption = "One Ring to Rule Them All")
+
+
+
+# References
